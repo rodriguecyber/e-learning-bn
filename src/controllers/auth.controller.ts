@@ -84,6 +84,24 @@ export class AuthController {
       res.status(500).json({ message: 'Login failed', error });
     }
   }
+  static loggedUser = async(req:Request,res:Response)=>{
+     const authHeader = req.headers["authorization"];
+     const token = authHeader && authHeader.split(" ")[1];
+
+     if (!token) {
+       return res
+         .status(401)
+         .json({ message: "Authentication token required" });
+     }
+
+     try {
+       const decoded = jwt.verify(token, config.jwt.secret) as any;
+       res.status(200).json({user:decoded})
+ 
+     } catch (error) {
+       return res.status(403).json({ message: "Invalid or expired token" });
+     }
+  }
 
   static async forgotPassword(req: Request, res: Response) {
     try {

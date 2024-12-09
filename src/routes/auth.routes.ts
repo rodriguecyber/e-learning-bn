@@ -33,5 +33,7 @@ router.post('/reset-password', [
 ], AuthController.resetPassword);
 //@ts-expect-error
 router.get('/verify-email', AuthController.verifyEmail);
+//@ts-expect-error
+router.get('/me', AuthController.loggedUser);
 
 export default router;
