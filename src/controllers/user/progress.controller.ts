@@ -6,16 +6,17 @@ import { AuthRequest } from '../../middleware/auth.middleware';
 export class ProgressController {
   static async updateProgress(req: AuthRequest, res: Response) {
     try {
-      const { lesson_id, time_spent, is_completed, notes } = req.body;
+      const {lessonId}= req.params
+      const {time_spent, is_completed, notes } = req.body;
       const user_id = req.user?._id;
 
-      const lesson = await Lesson.findById(lesson_id);
+      const lesson = await Lesson.findById(lessonId);
       if (!lesson) {
-        return res.status(404).json({ message: 'Lesson not found' });
+        return res.status(404).json({ message: 'Lesson not found' }); 
       }
 
       const progress = await UserProgress.findOneAndUpdate(
-        { user_id, lesson_id },
+        { user_id, lesson_id:lessonId },
         {
           $set: {
             is_completed,

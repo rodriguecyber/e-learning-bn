@@ -1,14 +1,13 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
-import { authenticateToken } from '../middleware/auth.middleware';
 import { body } from 'express-validator';
 
 const router = Router();
-
+  
 // Validation middleware
 const registerValidation = [
   body('email').isEmail().normalizeEmail(),
-  body('password').isLength({ min: 6 }),
+  body('password').isLength({ min: 6 }), 
   body('full_name').trim().notEmpty(),
   body('role').isIn(['student', 'instructor', 'admin']),
   body('phone').optional().isMobilePhone('any')

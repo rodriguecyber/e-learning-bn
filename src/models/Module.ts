@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, model, ObjectId, Schema } from 'mongoose';
 
 export interface IModule extends Document {
   course_id: Schema.Types.ObjectId;
@@ -7,6 +7,7 @@ export interface IModule extends Document {
   order_index: number;
   is_published: boolean;
   duration_hours: number;
+  lessons:ObjectId[]
 }
 
 const ModuleSchema: Schema = new Schema({
@@ -15,8 +16,9 @@ const ModuleSchema: Schema = new Schema({
   description: { type: String },
   order_index: { type: Number, required: true },
   is_published: { type: Boolean, default: false },
-  duration_hours: { type: Number }
+  duration_hours: { type: Number },
+  lessons:{type:[mongoose.Schema.Types.ObjectId],ref:"Lesson"}
 });
-
-export default mongoose.model<IModule>('Module', ModuleSchema);
+const Module = model<IModule>('Module', ModuleSchema)
+export default Module
 

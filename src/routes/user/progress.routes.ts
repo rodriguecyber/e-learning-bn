@@ -9,14 +9,13 @@ const router = Router();
 //@ts-expect-error
 router.use(authenticateToken);
 
-router.post(
-  "/update",
-  [
-    body("lesson_id").isMongoId(),
-    body("time_spent").optional().isInt({ min: 0 }),
-    body("is_completed").isBoolean(),
-    body("notes").optional().isObject(),
-  ],
+router.put(
+  "/lessons/:lessonId",
+  // [
+  //   body("time_spent").optional().isInt({ min: 0 }),
+  //   body("is_completed").isBoolean(),
+  //   body("notes").optional().isObject(),
+  // ],
   //@ts-expect-error
   ProgressController.updateProgress
 );
