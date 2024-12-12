@@ -21,6 +21,5 @@ router.put(
 );
 
 router.get('/', ProgressController.getUserProgress);
-router.get('/summary/:course_id', ProgressController.getProgressSummary);
 
 export default router;

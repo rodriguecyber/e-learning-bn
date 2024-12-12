@@ -26,7 +26,7 @@ router.get('/', CourseController.getCourses);
 //@ts-expect-error
 router.get('/:id', CourseController.getCourseById);
 router.get('/:courseId/modules',moduleController.courseModule)
-router.get('/modules/:moduleId/lessons',moduleController.courseModule)
+router.get('/modules/:moduleId/lessons',moduleController.moduleLessons) 
 
 
 
