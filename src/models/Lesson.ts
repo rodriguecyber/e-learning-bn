@@ -18,7 +18,7 @@ const LessonSchema: Schema = new Schema({
   content_type: { type: String, enum: ['text', 'video', 'audio'], required: true },
   video_url: { type: String },
   duration_minutes: { type: Number },
-  order_index: { type: Number, required: true },
+  order_index: { type: Number, },
   is_free_preview: { type: Boolean, default: false }
 });
 

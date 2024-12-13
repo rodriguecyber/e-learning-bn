@@ -4,7 +4,9 @@ import Module from "../../models/Module";
 
 
 export class moduleController{
-    static newModule =  async (req:any,res:Response)=>{
+    static newLesson =  async (req:any,res:Response)=>{
+    console.log('fff')
+
 try {
     let fileType:string= 'nofile'
     if (req.file) {
@@ -16,8 +18,8 @@ try {
           fileType = 'video';
         }
     }
-    const {module_id,title,content,order_index,duration}=  req.body
-    await Lesson.create({module_id,title,content,content_type:fileType,video_url:req.file.path,order_index,duration})
+    const {module_id,title,content,duration_minutes}=  req.body
+    await Lesson.create({module_id,title,content,content_type:fileType,video_url:req.file.path,duration_minutes})
     res.status(201).json({message:"lessons created"})
 } catch (error) {
     res.status(500).json({message:"internal server error"})
@@ -57,5 +59,18 @@ try {
       res.status(500).json({ message: "Internal server error" });
     }
   };
+
+    static newModule =  async (req:Request,res:Response)=>{
+try {
+    const {course_id,title,description,duration_hours}=  req.body
+    const modules  = await Module.create({course_id,title,description,duration_hours})
+    res.status(201).json({message:"module created",modules})
+} catch (error) {
+    res.status(500).json({message:"internal server error"})
+}
+    }
+
+   
+
   
 }
