@@ -5,6 +5,7 @@ import { body } from 'express-validator';
 import { moduleController } from '../controllers/modules/modules.controllers';
 import { lessonController } from '../controllers/lessons/lesson.controller';
 import { assignmentController } from '../controllers/assignment/assignment.controller';
+import upload from '../middleware/upload.middleware';
 
 const router = Router();
 
@@ -37,10 +38,10 @@ router.use(authenticateToken);
 
 // Instructor routes
 router.post(
-  "/",
+  "/",upload.single('thumbnail'),
   //@ts-expect-error
   authorizeRoles("instructor", "admin"),
-  courseValidation,
+  // courseValidation,
   CourseController.createCourse
 );
 

@@ -3,18 +3,24 @@ import Course from '../../models/Course';
 import { AuthRequest } from '../../middleware/auth.middleware';
 
 export class CourseController {
-  static async createCourse(req: AuthRequest, res: Response) {
+  static async createCourse(req: any, res: Response) {
     try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No file found" });
+      }
+  
       const courseData = {
         ...req.body,
-        instructor_id: req.user?._id
+        instructor_id: req.user?.userId,
+        thumbnail: req.file.path, 
       };
 
       const course = new Course(courseData);
       await course.save();
-
+  
       res.status(201).json(course);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ message: 'Failed to create course', error });
     }
   }
