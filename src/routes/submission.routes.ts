@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { SubmissionController } from '../controllers/submission/submission.controller';
 import { authenticateToken, authorizeRoles } from '../middleware/auth.middleware';
 import { body } from 'express-validator';
+import upload from '../middleware/upload.middleware';
 
 const router = Router();
 
@@ -23,8 +24,9 @@ router.use(authenticateToken);
 
 // Student routes
 router.post(
-  "/",
-  submissionValidation,
+  "/:assignment_id",
+  // submissionValidation,
+  upload.single('file'),
   //@ts-expect-error
   SubmissionController.createSubmission
 );
@@ -39,6 +41,6 @@ router.patch(
 );
 
 // Common routes
-router.get('/', SubmissionController.getSubmissions);
+router.get('/:assignment_id', SubmissionController.getSubmissions);
 
 export default router;

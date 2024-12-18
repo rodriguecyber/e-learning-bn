@@ -4,7 +4,7 @@ export interface ISubmission extends Document {
   assignment_id: Schema.Types.ObjectId;
   user_id: Schema.Types.ObjectId;
   content: string;
-  file_url?: string;
+  file_url?: string; 
   score?: number;
   feedback?: string;
   submitted_at: Date;

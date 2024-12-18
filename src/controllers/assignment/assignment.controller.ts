@@ -13,6 +13,7 @@ try {
 } catch (error) {
     res.status(500).json({message:"internal server error"})
 }
+
     }
     static submit= async(req:any,res:Response)=>{
         try {
@@ -39,6 +40,17 @@ static grade   = async(req:Request,res:Response)=>{
         const {feedback,score,user_id,assignment_id}=req.body
         await Submission.findOneAndUpdate({user_id,assignment_id},{feedback,score})
         res.status(201).json({message:"assignmnt submitted"})
+
+    } catch (error) {
+    res.status(500).json({message:"internal server error"})
+        
+    }
+}
+static getAssignment   = async(req:Request,res:Response)=>{
+    try {
+        const {module_id} = req.params
+        const assignments = await Assignment.find({module_id})
+        res.status(200).json(assignments)
 
     } catch (error) {
     res.status(500).json({message:"internal server error"})

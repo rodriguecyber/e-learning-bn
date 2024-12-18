@@ -4,25 +4,35 @@ import Assignment from '../../models/Assignment';
 import { AuthRequest } from '../../middleware/auth.middleware';
 
 export class SubmissionController {
-  static async createSubmission(req: AuthRequest, res: Response) {
+  static async createSubmission(req: any, res: Response) {
     try {
-      const { assignment_id } = req.body;
-      const assignment = await Assignment.findById(assignment_id);
+      const { assignment_id } = req.params;
+      const { content } = req.body;
+      const file = req.file;
 
+      if (!content) {
+        return res.status(400).json({ message: 'Submission content is required' });
+      }
+
+      const assignment = await Assignment.findById(assignment_id);
       if (!assignment) {
         return res.status(404).json({ message: 'Assignment not found' });
       }
-
+      
+console.log(file)
       const submission = new Submission({
-        ...req.body,
-        user_id: req.user?._id,
-        status: new Date() > assignment.due_date ? 'late' : 'pending'
+        content,
+        file_url: file.path,
+        user_id: req.user?.userId,
+        assignment_id,
+        status: new Date() > new Date(assignment.due_date) ? 'late' : 'pending'
       });
 
       await submission.save();
       res.status(201).json(submission);
     } catch (error) {
-      res.status(500).json({ message: 'Failed to create submission', error });
+      console.error('Error creating submission:', error);
+      res.status(500).json({ message: 'Failed to create submission', error: (error as Error).message });
     }
   }
 
@@ -49,20 +59,22 @@ export class SubmissionController {
     }
   }
 
-  static async getSubmissions(req: AuthRequest, res: Response) {
+  static async getSubmissions(req: any, res: Response) {
     try {
-      const { assignment_id } = req.query;
+      const { assignment_id } = req.params;
       const query: any = { assignment_id };
 
       if (req.user?.role === 'student') {
-        query.user_id = req.user._id;
+        query.user_id = req.user.userId;
       }
+      console.log(query)
+
 
       const submissions = await Submission.find(query)
         .populate('user_id', 'full_name email')
         .populate('assignment_id', 'title');
 
-      res.json(submissions);
+      res.status(200).json(submissions);
     } catch (error) {
       res.status(500).json({ message: 'Failed to fetch submissions', error });
     }

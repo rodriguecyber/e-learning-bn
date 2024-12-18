@@ -11,6 +11,7 @@ import certificateRoutes from './routes/user/certificate.routes';
 import notificationRoutes from './routes/user/notification.routes';
 import progressRoutes from './routes/user/progress.routes';
 import enrollmentRoutes from './routes/user/enrollment.routes'
+import assignmentRoutes from './routes/assignment.routes'
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/api/certificates', certificateRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/enrollement', enrollmentRoutes);
+app.use('/api/assignments', assignmentRoutes);
 
 // MongoDB connection
 mongoose.connect(config.mongodb.uri)
