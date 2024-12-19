@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Course from '../../models/Course';
 import { AuthRequest } from '../../middleware/auth.middleware';
+import Enrollment from '../../models/Enrollment';
 
 export class CourseController {
   static async createCourse(req: any, res: Response) {
@@ -25,7 +26,7 @@ export class CourseController {
     }
   }
 
-  static async getCourses(req: Request, res: Response) {
+  static async getCourses(req: any, res: Response) {
     try {
       const { difficulty, status, instructor } = req.query;
       let query: any = {};
@@ -33,16 +34,27 @@ export class CourseController {
       if (difficulty) query.difficulty_level = difficulty;
       if (status) query.status = status;
       if (instructor) query.instructor_id = instructor;
-
+  
+    
+      if (req.user.role === 'student') {
+        const enrollments = await Enrollment.find({ user_id: req.user.userId }).select('course_id');
+        const courseIds = enrollments.map((enrollment) => enrollment.course_id);
+  
+        query._id = { $in: courseIds };
+      } else if (req.user.role === 'instructor') { 
+        query.instructor_id = req.user.userId;
+      }
+  
       const courses = await Course.find(query)
         .populate('instructor_id', 'full_name expertise rating')
         .sort({ start_date: -1 });
-
+  
       res.json(courses);
     } catch (error) {
       res.status(500).json({ message: 'Failed to fetch courses', error });
     }
   }
+  
 
   static async getCourseById(req: Request, res: Response) {
     try {

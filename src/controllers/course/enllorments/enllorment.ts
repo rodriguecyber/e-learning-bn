@@ -8,7 +8,8 @@ try {
     const user_id= req.user.userId
     const enrollment = await Enrollment.findOne({user_id,course_id})
     if(!enrollment){
-        return res.status(400).json({message:"no enrollment found"})
+        res.status(400).json({message:"no enrollment found"})
+        return 
     }
     res.status(200).json(enrollment)
 

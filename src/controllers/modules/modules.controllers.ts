@@ -8,7 +8,7 @@ export class moduleController{
     console.log('fff')
 
 try {
-    let fileType:string= 'nofile'
+    let fileType:string= 'text'
     if (req.file) {
 
          fileType = 'document';
@@ -19,10 +19,12 @@ try {
         }
     }
     const {module_id,title,content,duration_minutes}=  req.body
-    await Lesson.create({module_id,title,content,content_type:fileType,video_url:req.file.path,duration_minutes})
+   const lesson= await Lesson.create({module_id,title,content,content_type:fileType,video_url:req?.file?.path,duration_minutes})
+    await Module.findOneAndUpdate(module_id,{$push:{lessons:lesson._id}})
     res.status(201).json({message:"lessons created"})
 } catch (error) {
     res.status(500).json({message:"internal server error"})
+    console.log(error)
 }
     }
 

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { ProgressController } from '../../controllers/user/progress.controller';
 import { authenticateToken } from '../../middleware/auth.middleware';
 import { body } from 'express-validator';
+import { dashboardController } from '../../controllers/user/dashboard.controllers';
 
 const router = Router();
 
@@ -19,6 +20,7 @@ router.put(
   //@ts-expect-error
   ProgressController.updateProgress
 );
+router.get('/dashboard',dashboardController)
 
 router.get('/', ProgressController.getUserProgress);
 

@@ -22,7 +22,6 @@ const courseValidation = [
 ];
 
 // Public routes
-router.get('/', CourseController.getCourses);
 //@ts-expect-error
 router.get('/:id', CourseController.getCourseById);
 router.get('/:courseId/modules',moduleController.courseModule)
@@ -34,6 +33,7 @@ router.get('/modules/:moduleId/lessons',moduleController.moduleLessons)
 //@ts-expect-error
 router.use(authenticateToken);
 
+router.get('/', CourseController.getCourses);
 
 // Instructor routes
 router.post(

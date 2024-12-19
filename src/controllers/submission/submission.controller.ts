@@ -59,23 +59,26 @@ console.log(file)
     }
   }
 
-  static async getSubmissions(req: any, res: Response) {
-    try {
-      const { assignment_id } = req.params;
-      const query: any = { assignment_id };
-
-      if (req.user?.role === 'student') {
-        query.user_id = req.user.userId;
+  static async getSubmissions(req: any, res: Response) {     
+    try {       
+      const { assignment_id } = req.params;       
+      const query: any = { assignment_id }; 
+  
+      if (req.user?.role === 'student') {         
+        query.user_id = req.user.userId;  
       }
-
-
-      const submissions = await Submission.findOne(query)
-        .populate('user_id', 'full_name email')
-        .populate('assignment_id', 'title');
-
-      res.status(200).json(submissions);
-    } catch (error) {
-      res.status(500).json({ message: 'Failed to fetch submissions', error });
-    }
+  
+      const submissions = req.user?.role === 'student' 
+        ? await Submission.findOne(query) .populate('user_id', 'full_name email')  .populate('assignment_id', 'title')      
+        : await Submission.find(query).populate('user_id', 'full_name email')  .populate('assignment_id', 'title')   
+      
+      const populatedSubmissions = await submissions
+  
+      res.status(200).json(populatedSubmissions);     
+  
+    } catch (error) {       
+      res.status(500).json({ message: 'Failed to fetch submissions', error });     
+    }   
   }
+  
 }

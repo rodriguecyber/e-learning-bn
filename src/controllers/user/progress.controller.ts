@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import UserProgress from '../../models/UserProgress';
-import Lesson from '../../models/Lesson';
-import { AuthRequest } from '../../middleware/auth.middleware';
+import Lesson, { ILesson } from '../../models/Lesson';
+import Enrollment from '../../models/Enrollment';
 import Module from '../../models/Module';
 
 export class ProgressController {
@@ -28,7 +28,22 @@ export class ProgressController {
         },
         { new: true, upsert: true }
       );
-       
+      const module = await Module.findById(lesson.module_id).populate('lessons')
+      if(!module){
+        res.status(400).json({message:'module not found'})
+        return
+      }
+       const enrollment = await Enrollment.findOne({user_id,course_id:module.course_id})
+       if(!enrollment){
+        res.status(400).json({message:"enrolement not found"})
+        return
+       }
+       enrollment.completedLessons +=1 
+       //@ts-ignore
+       const totaltime = module.lessons.reduce((total, less) => total + less.duration_minutes, 0);
+       const percent = totaltime*lesson.duration_minutes/100
+       enrollment.progress_percentage+=percent
+       await  enrollment.save()
       res.json(progress);
     } catch (error) {
       res.status(500).json({ message: 'Failed to update progress', error });
