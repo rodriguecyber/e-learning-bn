@@ -49,8 +49,14 @@ static grade   = async(req:Request,res:Response)=>{
 static getAssignment   = async(req:Request,res:Response)=>{
     try {
         const {module_id} = req.params
-        const assignments = await Assignment.find({module_id})
-        res.status(200).json(assignments)
+        const assignment = await Assignment.findOne({module_id})
+        if(!assignment){
+             res.status(200).json({message:"assignment not found"})
+             return
+        }
+
+        res.status(200).json(assignment)
+    
 
     } catch (error) {
     res.status(500).json({message:"internal server error"})

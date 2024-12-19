@@ -67,10 +67,9 @@ console.log(file)
       if (req.user?.role === 'student') {
         query.user_id = req.user.userId;
       }
-      console.log(query)
 
 
-      const submissions = await Submission.find(query)
+      const submissions = await Submission.findOne(query)
         .populate('user_id', 'full_name email')
         .populate('assignment_id', 'title');
 
