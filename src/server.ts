@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import { config } from './config/config';
@@ -30,6 +30,9 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/enrollement', enrollmentRoutes);
 app.use('/api/assignments', assignmentRoutes);
+app.get('/', (req:Request,res:Response)=>{
+  res.send('working')
+});
 
 // MongoDB connection
 mongoose.connect(config.mongodb.uri)
