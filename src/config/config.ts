@@ -4,7 +4,7 @@ dotenv.config();
 
 export const config = {
   jwt: {
-    secret: process.env.JWT_SECRET || 'your-secret-key',
+    secret: process.env.JWT_SECRET || '',
     expiresIn: '24h'
   },
   email: {
