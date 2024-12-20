@@ -10,6 +10,7 @@ export interface ICourse extends Document {
   status: 'draft' | 'published' | 'archived';
   prerequisites: string[];
   start_date: Date;
+  totalStudent:number
   end_date: Date;
   is_certified: boolean;
   duration_weeks: number;
@@ -17,6 +18,7 @@ export interface ICourse extends Document {
 
 const CourseSchema: Schema = new Schema({
   instructor_id: { type: Schema.Types.ObjectId, ref: 'Instructor', required: true },
+  totalStudent:{type:Number,default:0},
   title: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },

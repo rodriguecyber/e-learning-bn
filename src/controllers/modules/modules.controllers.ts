@@ -1,11 +1,11 @@
 import { Request, Response } from "express"
 import Lesson from "../../models/Lesson"
 import Module from "../../models/Module";
+import Enrollment from "../../models/Enrollment";
 
 
 export class moduleController{
     static newLesson =  async (req:any,res:Response)=>{
-    console.log('fff')
 
 try {
     let fileType:string= 'text'
@@ -20,7 +20,12 @@ try {
     }
     const {module_id,title,content,duration_minutes}=  req.body
    const lesson= await Lesson.create({module_id,title,content,content_type:fileType,video_url:req?.file?.path,duration_minutes})
-    await Module.findOneAndUpdate(module_id,{$push:{lessons:lesson._id}})
+   const course =  await Module.findByIdAndUpdate(module_id,{$push:{lessons:lesson._id}})
+   if(!course){
+    res.status(400).json({message:"course not found"})
+    return
+   }
+   await Enrollment.findOneAndUpdate({course_id:course._id,user_id:req.user.userId},{$inc:{totalLesson:1}})
     res.status(201).json({message:"lessons created"})
 } catch (error) {
     res.status(500).json({message:"internal server error"})
