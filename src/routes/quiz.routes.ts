@@ -16,13 +16,13 @@ const quizValidation = [
 ];
 
 // Protected routes
-//@ts-expect-error
+
 router.use(authenticateToken);
 
 // Instructor routes
 router.post(
   "/",
-  //@ts-expect-error
+  
   authorizeRoles("instructor", "admin"),
   quizValidation,
   QuizController.createQuiz
@@ -30,7 +30,7 @@ router.post(
 
 router.put(
   "/:id",
-  //@ts-expect-error
+  
   authorizeRoles("instructor", "admin"),
   quizValidation,
   QuizController.updateQuiz
@@ -38,27 +38,27 @@ router.put(
 
 router.delete(
   "/:id",
-  //@ts-expect-error
+
   authorizeRoles("instructor", "admin"),
   QuizController.deleteQuiz
 );
 
 // Student routes
 router.get('/', QuizController.getQuizzes);
-//@ts-expect-error
+
 router.get('/:id', QuizController.getQuizById);
 
 router.post(
   "/attempts",
   body("quiz_id").isMongoId(),
-  //@ts-expect-error
+  
   QuizAttemptController.startQuizAttempt
 );
 
 router.post(
   "/attempts/:id/submit",
   body("answers").isObject(),
-  //@ts-expect-error
+  
   QuizAttemptController.submitQuizAttempt
 );
 

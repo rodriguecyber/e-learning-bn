@@ -12,12 +12,14 @@ export class CertificateController {
 
       const course = await Course.findById(course_id);
       if (!course || !course.is_certified) {
-        return res.status(400).json({ message: 'Course is not eligible for certification' });
+         res.status(400).json({ message: 'Course is not eligible for certification' });
+         return
       }
 
       const existingCertificate = await UserCertificate.findOne({ user_id, course_id });
       if (existingCertificate) {
-        return res.status(400).json({ message: 'Certificate already issued' });
+         res.status(400).json({ message: 'Certificate already issued' });
+         return
       }
 
       const certificate = new UserCertificate({
@@ -54,7 +56,8 @@ export class CertificateController {
         .populate('course_id', 'title');
 
       if (!certificate) {
-        return res.status(404).json({ message: 'Certificate not found' });
+         res.status(404).json({ message: 'Certificate not found' });
+         return
       }
 
       res.json({

@@ -50,7 +50,8 @@ console.log(file)
       );
 
       if (!submission) {
-        return res.status(404).json({ message: 'Submission not found' });
+        res.status(404).json({ message: 'Submission not found' });
+        return
       }
 
       res.json(submission);

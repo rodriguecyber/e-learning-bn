@@ -19,7 +19,6 @@ const gradeValidation = [
 ];
 
 // Protected routes
-//@ts-expect-error
 router.use(authenticateToken);
 
 // Student routes
@@ -32,9 +31,9 @@ router.post(
 );
 
 // Instructor routes
-router.patch(
+router.put(
   "/:id/grade",
-  //@ts-expect-error
+
   authorizeRoles("instructor", "admin"),
   gradeValidation,
   SubmissionController.gradeSubmission

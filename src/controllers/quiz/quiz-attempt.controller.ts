@@ -14,11 +14,13 @@ export class QuizAttemptController {
       const quiz = await Quiz.findById(quiz_id);
 
       if (!quiz) {
-        return res.status(404).json({ message: 'Quiz not found' });
+         res.status(404).json({ message: 'Quiz not found' });
+         return
       }
 
       if (attemptCount >= quiz.max_attempts) {
-        return res.status(400).json({ message: 'Maximum attempts reached' });
+       res.status(400).json({ message: 'Maximum attempts reached' });
+       return
       }
 
       const quizAttempt = new QuizAttempt({
@@ -40,11 +42,13 @@ export class QuizAttemptController {
       const attempt = await QuizAttempt.findById(req.params.id);
 
       if (!attempt) {
-        return res.status(404).json({ message: 'Quiz attempt not found' });
+         res.status(404).json({ message: 'Quiz attempt not found' });
+         return
       }
 
       if (attempt.completed_at) {
-        return res.status(400).json({ message: 'Quiz already submitted' });
+         res.status(400).json({ message: 'Quiz already submitted' });
+         return
       }
 
       attempt.answers = answers;

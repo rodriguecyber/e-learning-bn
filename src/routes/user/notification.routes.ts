@@ -5,7 +5,6 @@ import { body } from 'express-validator';
 
 const router = Router();
 
-//@ts-expect-error
 // Protected routes
 router.use(authenticateToken);
 
@@ -26,7 +25,6 @@ router.patch(
   body('notification_ids').isArray(),
   NotificationController.markAsRead
 );
-//@ts-expect-error
 router.delete('/:id', NotificationController.deleteNotification);
 
 export default router;

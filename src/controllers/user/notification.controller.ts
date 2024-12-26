@@ -60,7 +60,8 @@ export class NotificationController {
       });
 
       if (!notification) {
-        return res.status(404).json({ message: 'Notification not found' });
+         res.status(404).json({ message: 'Notification not found' });
+         return
       }
 
       res.json({ message: 'Notification deleted successfully' });

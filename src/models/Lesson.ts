@@ -9,6 +9,7 @@ export interface ILesson extends Document {
   duration_minutes: number;
   order_index: number;
   is_free_preview: boolean;
+  is_completed:boolean
 }
 
 const LessonSchema: Schema = new Schema({
@@ -19,7 +20,8 @@ const LessonSchema: Schema = new Schema({
   video_url: { type: String },
   duration_minutes: { type: Number },
   order_index: { type: Number, },
-  is_free_preview: { type: Boolean, default: false }
+  is_free_preview: { type: Boolean, default: false },
+  is_completed:{type:Boolean,default:false}
 });
 
 export default mongoose.model<ILesson>('Lesson', LessonSchema);

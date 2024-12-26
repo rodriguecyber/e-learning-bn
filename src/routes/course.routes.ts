@@ -22,7 +22,7 @@ const courseValidation = [
 ];
 
 // Public routes
-//@ts-expect-error
+
 router.get('/:id', CourseController.getCourseById);
 router.get('/:courseId/modules',moduleController.courseModule)
 router.get('/modules/:moduleId/lessons',moduleController.moduleLessons) 
@@ -30,7 +30,7 @@ router.get('/modules/:moduleId/lessons',moduleController.moduleLessons)
 
 
 // Protected routes
-//@ts-expect-error
+
 router.use(authenticateToken);
 
 router.get('/', CourseController.getCourses);
@@ -38,7 +38,7 @@ router.get('/', CourseController.getCourses);
 // Instructor routes
 router.post(
   "/",upload.single('thumbnail'),
-  //@ts-expect-error
+  
   authorizeRoles("instructor", "admin"),
   // courseValidation,
   CourseController.createCourse
@@ -46,7 +46,7 @@ router.post(
 
 router.put(
   "/:id",
-  //@ts-expect-error
+  
   authorizeRoles("instructor", "admin"),
   courseValidation,
   CourseController.updateCourse
@@ -54,14 +54,12 @@ router.put(
 
 router.delete(
   "/:id",
-  //@ts-expect-error
   authorizeRoles("instructor", "admin"),
   CourseController.deleteCourse
 );
 
 router.patch(
   "/:id/publish",
-  //@ts-expect-error
   authorizeRoles("instructor", "admin"),
   CourseController.publishCourse
 );

@@ -7,7 +7,8 @@ export class CourseController {
   static async createCourse(req: any, res: Response) {
     try {
       if (!req.file) {
-        return res.status(400).json({ message: "No file found" });
+        res.status(400).json({ message: "No file found" });
+        return
       }
   
       const courseData = {
@@ -62,7 +63,8 @@ export class CourseController {
         .populate('instructor_id', 'full_name expertise rating');
       
       if (!course) {
-        return res.status(404).json({ message: 'Course not found' });
+         res.status(404).json({ message: 'Course not found' });
+         return
       }
 
       res.json(course);
@@ -80,7 +82,8 @@ export class CourseController {
       );
 
       if (!course) {
-        return res.status(404).json({ message: 'Course not found or unauthorized' });
+         res.status(404).json({ message: 'Course not found or unauthorized' });
+         return
       }
 
       res.json(course);
@@ -97,7 +100,8 @@ export class CourseController {
       });
 
       if (!course) {
-        return res.status(404).json({ message: 'Course not found or unauthorized' });
+         res.status(404).json({ message: 'Course not found or unauthorized' });
+         return
       }
 
       res.json({ message: 'Course deleted successfully' });
@@ -115,7 +119,8 @@ export class CourseController {
       );
 
       if (!course) {
-        return res.status(404).json({ message: 'Course not found or unauthorized' });
+         res.status(404).json({ message: 'Course not found or unauthorized' });
+         return
       }
 
       res.json(course);

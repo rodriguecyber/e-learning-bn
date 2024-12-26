@@ -32,7 +32,8 @@ export class QuizController {
         .populate('module_id', 'title');
       
       if (!quiz) {
-        return res.status(404).json({ message: 'Quiz not found' });
+         res.status(404).json({ message: 'Quiz not found' });
+         return
       }
       
       res.json(quiz);
@@ -50,7 +51,8 @@ export class QuizController {
       );
 
       if (!quiz) {
-        return res.status(404).json({ message: 'Quiz not found' });
+        res.status(404).json({ message: 'Quiz not found' });
+        return
       }
 
       res.json(quiz);
@@ -64,7 +66,8 @@ export class QuizController {
       const quiz = await Quiz.findByIdAndDelete(req.params.id);
 
       if (!quiz) {
-        return res.status(404).json({ message: 'Quiz not found' });
+         res.status(404).json({ message: 'Quiz not found' });
+         return
       }
 
       res.json({ message: 'Quiz deleted successfully' });

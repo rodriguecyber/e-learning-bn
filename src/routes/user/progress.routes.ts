@@ -7,7 +7,6 @@ import { dashboardController } from '../../controllers/user/dashboard.controller
 const router = Router();
 
 // Protected routes
-//@ts-expect-error
 router.use(authenticateToken);
 
 router.put(
@@ -17,7 +16,6 @@ router.put(
   //   body("is_completed").isBoolean(),
   //   body("notes").optional().isObject(),
   // ],
-  //@ts-expect-error
   ProgressController.updateProgress
 );
 router.get('/dashboard',dashboardController)

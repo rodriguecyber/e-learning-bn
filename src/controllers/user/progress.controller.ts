@@ -13,9 +13,13 @@ export class ProgressController {
 
       const lesson = await Lesson.findById(lessonId);
       if (!lesson) {
-        return res.status(404).json({ message: 'Lesson not found' }); 
+         res.status(404).json({ message: 'Lesson not found' }); 
+         return
       }
-
+   if(lesson.is_completed){
+    res.status(200).json({message:"lessons viewed"})
+    return
+  }
       const progress = await UserProgress.findOneAndUpdate(
         { user_id, lesson_id:lessonId },
         {
@@ -39,7 +43,7 @@ export class ProgressController {
         return
        }
        enrollment.completedLessons +=1 
-       //@ts-ignore
+       //@ts-ignore 
        const totaltime = module.lessons.reduce((total, less) => total + less.duration_minutes, 0);
        const percent = totaltime*lesson.duration_minutes/100
        enrollment.progress_percentage+=percent

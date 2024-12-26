@@ -51,7 +51,7 @@ static getAssignment   = async(req:Request,res:Response)=>{
         const {module_id} = req.params
         const assignment = await Assignment.findOne({module_id})
         if(!assignment){
-             res.status(200).json({message:"assignment not found"})
+             res.status(400).json({message:"assignment not found"})
              return
         }
 
